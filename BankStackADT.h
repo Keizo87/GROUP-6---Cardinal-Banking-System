@@ -10,6 +10,6 @@ public:
     virtual void pushToBankStack(const Type& transaction) = 0;
     virtual Type viewTopTransaction() const = 0;
     virtual void removeTopTransaction() = 0;
-    virtual void displayRecentTransactions() const = 0; 
+};
 
 #endif
