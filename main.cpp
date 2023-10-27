@@ -211,12 +211,10 @@ void handleAdministratorOperations(Account accounts[], int &numAccounts) {
     cin >> choice;
 
     switch (choice) {
-      case 'V':
-      case 'v':
+    case 'V':
+    case 'v':
       viewAllDepositors(accounts);
-      bankStack.displayRecentTransactions(); 
       break;
-
 
     case 'A':
     case 'a':
