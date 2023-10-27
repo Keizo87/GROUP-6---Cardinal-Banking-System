@@ -17,7 +17,6 @@ public:
     void pushToBankStack(const Type& transaction);
     Type viewTopTransaction() const;
     void removeTopTransaction();
-    void displayRecentTransactions() const; // Function to display recent transactions
 
     BankStackType(int stackSize = 100);
     BankStackType(const BankStackType<Type>& otherBankStack);
@@ -27,17 +26,13 @@ private:
     int maxStackSize;
     int stackTop;
     Type *transactionArray;
-    Type *recentTransactions; // Add a stack for recent transactions
-    int recentTransactionTop;  // Track the top of the recent transaction stack
-    const int maxRecentTransactions = 10; // Define the maximum number of recent transactions
+
     void copyBankStack(const BankStackType<Type>& otherBankStack);
 };
 
 template <class Type>
 void BankStackType<Type>::initializeBankStack() {
     stackTop = 0;
-    recentTransactionTop = 0; // Initialize recent transaction stack top
-    recentTransactions = new Type[maxRecentTransactions]; // Initialize recent transaction stack
 }
 
 template <class Type>
@@ -55,18 +50,6 @@ void BankStackType<Type>::pushToBankStack(const Type& transaction) {
     if (!isBankStackFull()) {
         transactionArray[stackTop] = transaction;
         stackTop++;
-
-        // Add the transaction to recent transactions stack
-        if (recentTransactionTop < maxRecentTransactions) {
-            recentTransactions[recentTransactionTop] = transaction;
-            recentTransactionTop++;
-        } else {
-            // If the recent transaction stack is full, remove the oldest transaction
-            for (int i = 0; i < maxRecentTransactions - 1; i++) {
-                recentTransactions[i] = recentTransactions[i + 1];
-            }
-            recentTransactions[maxRecentTransactions - 1] = transaction;
-        }
     } else {
         cout << "Transaction stack is full. Cannot add more transactions." << endl;
     }
@@ -102,7 +85,6 @@ BankStackType<Type>::BankStackType(int stackSize) {
 template <class Type>
 BankStackType<Type>::~BankStackType() {
     delete [] transactionArray;
-    delete [] recentTransactions; // Deallocate memory for recent transactions
 }
 
 template <class Type>
@@ -122,14 +104,6 @@ const BankStackType<Type>& BankStackType<Type>::operator=(const BankStackType<Ty
         copyBankStack(otherBankStack);
     }
     return *this;
-}
-
-template <class Type>
-void BankStackType<Type>::displayRecentTransactions() const {
-    cout << "\nRecent Transactions:\n";
-    for (int i = 0; i < recentTransactionTop; i++) {
-        cout << "Transaction " << i + 1 << ": " << recentTransactions[i] << endl;
-    }
 }
 
 #endif
